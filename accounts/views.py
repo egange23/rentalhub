@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, FormView
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
 
-# Create your views here.
+from .forms import CustomUserCreationForm, CustomGroupForm
+from .models import CustomUser, CustomGroup
+
+
+
+class SignUpGroupView(CreateView):
+    model = CustomGroup
+    form_class = CustomGroupForm
+    template_name = 'accounts/registration/signup.html'
+    success_url = reverse_lazy("home")
+
+
+class SignUpView(CreateView):
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = "accounts/registration/signup.html"
+    success_url = reverse_lazy('login')
