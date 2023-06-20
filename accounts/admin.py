@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from accounts.forms import *
 
 from .models import *
-# Register your models here.
+
 
 
 class CustomUserAdmin(UserAdmin):
@@ -16,16 +16,10 @@ class CustomUserAdmin(UserAdmin):
         "first_name",
         "last_name",
         "email",
-        "is_staff",
-        "city",
-        "state",
+        "phone",
         
     ]
-    
-    # fieldsets = UserAdmin.fieldsets + ((None, {"fields":("",)}),)
-    # add_fieldsets = UserAdmin.fieldsets + ((None, {"fields":("",)}),)
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields":("city","state","phone", "organization")}),)
-    add_fieldsets = UserAdmin.fieldsets + ((None, {"fields":("state","state", "phone","organization")}),)
+
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields":("phone",)}),)
+    add_fieldsets = UserAdmin.fieldsets + ((None, {"fields":("phone",)}),)
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(CustomGroup)
-admin.site.register(SocialMedia)

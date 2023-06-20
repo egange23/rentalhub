@@ -3,16 +3,10 @@ from django.views.generic import CreateView, FormView
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
-from .forms import CustomUserCreationForm, CustomGroupForm
-from .models import CustomUser, CustomGroup
+from .forms import CustomUserCreationForm
+from .models import CustomUser
 
 
-
-class SignUpGroupView(CreateView):
-    model = CustomGroup
-    form_class = CustomGroupForm
-    template_name = 'accounts/registration/signup.html'
-    success_url = reverse_lazy("home")
 
 
 class SignUpView(CreateView):
