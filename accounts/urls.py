@@ -6,3 +6,9 @@ urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
     
 ]
+
+htmx_urlpatterns = [
+    path("check_username/", views.check_username, name='check-username')
+]
+
+urlpatterns += htmx_urlpatterns
