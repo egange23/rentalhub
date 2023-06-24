@@ -19,17 +19,23 @@ class SignUpView(CreateView):
 
 def check_username(request):
     username = request.POST.get('username')
+    username_length = len(username)
+
     if get_user_model().objects.filter(username=username).exists():
         return HttpResponse("That <b>username</b> already exists. <a href='/accounts/password_reset'> Want to Login instead?</a> ")
-    else:
+    elif username_length > 5:
         return HttpResponse("That username is <strong style='color:green'> available! </strong>")
+
 
 def check_phone(request):
     phone = request.POST.get('phone')
     if get_user_model().objects.filter(phone=phone).exists():
         return HttpResponse("That phone number is already used")
-    else:
+    elif len(phone) == 10:
         return HttpResponse("That phone number is <strong style='color:green'> available! </strong>")
+    elif len(phone) != 10:
+        return HttpResponse("That phone number is <strong style='color:green'> too long or too short </strong>")
+
 def check_email(request):
     email = request.POST.get('email')
     if get_user_model().objects.filter(email=email).exists():
