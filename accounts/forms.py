@@ -18,11 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
             "username": forms.TextInput(attrs={'hx-post': '/accounts/check_username/', 'hx-trigger':'keyup', 'hx-target':'#hint_id_username',}),
              "phone": forms.TextInput(attrs={'hx-post': '/accounts/check_phone/', 'hx-trigger':'keyup', 'hx-target':'#hint_id_phone',}),
              "email": forms.TextInput(attrs={'hx-post':'/accounts/check_email/', 'hx-trigger':'keyup', 'hx-target':'#hint_id_email',}),
-
-                   }
-            
-
-
+                   }          
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
