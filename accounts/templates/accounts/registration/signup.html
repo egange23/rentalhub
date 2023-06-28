@@ -10,12 +10,13 @@
 <h2>Sign Up!</h2>
 <form method="post">{% csrf_token %}
     {{ form | crispy }}
-    <input id="id_checkbox" type="checkbox" onclick="showHide()" > <label id="id_show_hide">Show Password</label> <br> <br>
+    <input type="checkbox" onclick="showHide()" id="id_show_hide"> Show/Hide Password </input> <br> <br>
     <button class="btn btn-success" type="submit">Sign Up</button>
 </form>
 
 
 <script>
+    //
     function showHide() {
         let password1 = document.getElementById('id_password1');
         let password2 = document.getElementById('id_password2');
@@ -26,7 +27,7 @@
         if(password1.type === "password") {
             password1.type = "text";
             password2.type = "text";
-            checkboxLabel.innerHTML = "Hide Password";
+            showHide.innerHTML = "Hide password";
 
         }
         else {
