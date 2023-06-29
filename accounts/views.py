@@ -6,7 +6,9 @@ from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm
 from .models import CustomUser
-from django_project import settings
+from django.conf import settings
+
+import random, math
 
 
 
@@ -46,15 +48,24 @@ def check_email(request):
     else:
         return HttpResponse("...")
 
+def generateOTP():
+    digits = "0123456789"
+    OTP = ""
+
+    for i in range(4):
+        OTP += digits[math.floor(random.random() * 10)]
+    return OTP
+
+
 
 def verify_email(request):
-    verification_code = "123456"
+    verification_code = generateOTP()
     email = request.POST.get('email')
     subject = "Account Verification"
     message = f"Please verify your account {verification_code}"
-    email_from = settings.EMAIL_HOST_USER
+    from_email = settings.EMAIL_HOST_USER
     recipient_list = [email]
-    send_mail(subject,message,email_from,recipient_list)
-
+    send_mail(subject,message,from_email,recipient_list)
+    print(email)
     
     return HttpResponse("Verification code sent!")
