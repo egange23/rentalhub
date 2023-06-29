@@ -29,6 +29,16 @@ def check_username(request):
     else:
         return HttpResponse('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.')
 
+# Verification process
+
+
+def generateOTP():
+    digits = "0123456789"
+    OTP = ""
+    for i in range(4):
+        OTP += digits[math.floor(random.random() * 10)]
+    return OTP
+
 
 def check_phone(request):
     phone = request.POST.get('phone')
@@ -39,6 +49,7 @@ def check_phone(request):
     else:
         return HttpResponse("Enter mobile number")
 
+
 def check_email(request):
     email = request.POST.get('email')
     if get_user_model().objects.filter(email=email).exists():
@@ -48,16 +59,6 @@ def check_email(request):
     else:
         return HttpResponse("...")
 
-def generateOTP():
-    digits = "0123456789"
-    OTP = ""
-
-    for i in range(4):
-        OTP += digits[math.floor(random.random() * 10)]
-    return OTP
-
-
-
 def verify_email(request):
     verification_code = generateOTP()
     email = request.POST.get('email')
@@ -66,6 +67,6 @@ def verify_email(request):
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject,message,from_email,recipient_list)
-    print(email)
     
-    return HttpResponse("Verification code sent!")
+    
+    return HttpResponse("Verification code sent!!")

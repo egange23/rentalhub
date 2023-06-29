@@ -13,16 +13,24 @@
     <input type="checkbox" onclick="showHide()"> <label id = "id_show_hide_label">Show Password </label> </input> <br> <br>
     <button class="btn btn-success" type="submit">Sign Up</button>
 </form>
-<div id="div_id_verification" >
+
+<div id="div_id_email_verification" hidden >
     <form method="post">
         {%csrf_token%}
-    <input type="text" id="id_verification" placeholder="Enter verification code" name="email">
+    </form>
+</div>
+
+<div id="div_id_code_verification">
+    <form method="post">
+        {%csrf_token%}
+    <input type="text" id="id_code_verification" placeholder="Enter verification code" name="code" class="form-control">
     <button class="btn btn-primary" id="id_verify_button" hx-post="{% url 'verify-email' %}">Verify Email</button>
     </form>
 </div>
 
+
 <script>
-    //
+    //show or hide password
     function showHide() {
         let password1 = document.getElementById('id_password1');
         let password2 = document.getElementById('id_password2');
@@ -34,10 +42,13 @@
         }
         else {
             password1.type = "password";
-            password2.t ype = "password";
+            password2.type = "password";
             checkboxLabel.innerHTML = "Show Password";
         }
     }
+    //email verification
+
+
 
 
     
