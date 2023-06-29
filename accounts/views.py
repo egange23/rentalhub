@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm
 from .models import CustomUser
-
+from django_project import settings
 
 
 
@@ -45,3 +45,16 @@ def check_email(request):
         return HttpResponse("That email address is <strong style='color:green'> available! </strong>")
     else:
         return HttpResponse("...")
+
+
+def verify_email(request):
+    verification_code = "123456"
+    email = request.POST.get('email')
+    subject = "Account Verification"
+    message = f"Please verify your account {verification_code}"
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject,message,email_from,recipient_list)
+
+    
+    return HttpResponse("Verification code sent!")
