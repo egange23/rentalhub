@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, ContactVerificationForm
 from .models import *
 from django.conf import settings
 
@@ -27,11 +27,11 @@ class SignUpView(CreateView):
 
 class VerifyView(UpdateView):
     models = CustomUser
-    form_class = CustomUserChangeForm
+    form_class = ContactVerificationForm
     template_name = "accounts/registration/verification.html"
     success_url = "/"
 
-    def get_object(self, queryset=None): 
+    def get_object(self, queryset=CustomUser): 
         # Return the current user object
         return self.request.user
 
