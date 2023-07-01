@@ -12,13 +12,14 @@ class CustomUserCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields
         widgets = {
             "username": forms.TextInput(attrs={'hx-post': '/accounts/check_username/', 'hx-trigger':'keyup changed delay:1000ms', 'hx-target':'#hint_id_username',}),
-             "phone": forms.TextInput(attrs={'hx-post': '/accounts/check_phone/', 'hx-trigger':'keyup changed delay:1000ms', 'hx-target':'#hint_id_phone',}),
-             "email": forms.TextInput(attrs={'hx-post':'/accounts/check_email/', 'hx-trigger':'keyup changed delay:1000ms', 'hx-target':'#hint_id_email',}),
                    }          
         
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = UserChangeForm.Meta.fields 
-        
+        fields = ["email", "phone"]
 
+        widgets = {
+             "phone": forms.TextInput(attrs={'hx-post': '/accounts/check_phone/', 'hx-trigger':'keyup changed delay:1000ms', 'hx-target':'#hint_id_phone',}),
+             "email": forms.TextInput(attrs={'hx-post':'/accounts/check_email/', 'hx-trigger':'keyup changed delay:1000ms', 'hx-target':'#hint_id_email',}),
+                   }   

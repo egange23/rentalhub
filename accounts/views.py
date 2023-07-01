@@ -1,14 +1,22 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
+from django.views.generic.edit import UpdateView
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import *
 from django.conf import settings
 
+import random, math
 
+def generateOTP():
+    digits = "0123456789"
+    OTP = ""
+    for i in range(4):
+        OTP += digits[math.floor(random.random() * 10)]
+    return OTP
 
 
 class SignUpView(CreateView):
@@ -17,7 +25,15 @@ class SignUpView(CreateView):
     template_name = "accounts/registration/signup.html"
     success_url = reverse_lazy('login')
 
+class VerifyView(UpdateView):
+    models = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = "accounts/registration/verification.html"
+    success_url = "/"
 
+    def get_object(self, queryset=None): 
+        # Return the current user object
+        return self.request.user
 
 def check_username(request):
     username = request.POST.get('username')
@@ -40,7 +56,6 @@ def check_phone(request):
     else:
         return HttpResponse("Enter mobile number")
 
-
 def check_email(request):
     email = request.POST.get('email')
     if get_user_model().objects.filter(email=email).exists():
@@ -50,14 +65,16 @@ def check_email(request):
     else:
         return HttpResponse("...")
 
-def verify_email(request):
+def send_verification_code(request):
     verification_code = generateOTP()
     email = request.POST.get('email')
     subject = "Account Verification"
-    message = f"Please verify your account {verification_code}"
+    message = f"Please verify your account with this code {verification_code}"
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject,message,from_email,recipient_list)
-    
-    
     return HttpResponse("Verification code sent!!")
+
+# How will verification be done?
+# Each CustomUser has a verification_code variable that can be completed from a verification.html form.
+# The verification.html has form that allows the user to enter their email address, email_verification_code, a button for verification <button>'s.
