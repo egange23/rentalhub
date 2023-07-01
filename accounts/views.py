@@ -5,10 +5,9 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm
-from .models import CustomUser
+from .models import *
 from django.conf import settings
 
-import random, math
 
 
 
@@ -16,8 +15,9 @@ class SignUpView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = "accounts/registration/signup.html"
-    
     success_url = reverse_lazy('login')
+
+
 
 def check_username(request):
     username = request.POST.get('username')
@@ -30,15 +30,6 @@ def check_username(request):
         return HttpResponse('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.')
 
 # Verification process
-
-
-def generateOTP():
-    digits = "0123456789"
-    OTP = ""
-    for i in range(4):
-        OTP += digits[math.floor(random.random() * 10)]
-    return OTP
-
 
 def check_phone(request):
     phone = request.POST.get('phone')
