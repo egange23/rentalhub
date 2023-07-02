@@ -8,13 +8,11 @@
 {% block content %}
 <body>
 <h2>Verification Page</h2>
-
+email:{{customuser.email_verification_code}}
 <div id="div_id_verification_status">
 <div id="div_id_email_verified" name="email_verified" class="btn btn-secondary" hidden>{{user.email_verified}}</div>
 <div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary"hidden>{{user.phone_verified}}</div>
 <a id="a_id_verified" name="verified" class="display-1"  href={% url 'refresh_code' %}></a>
-
-
 </div>
 <form id="form_id" method="post">
     <div >
@@ -22,8 +20,12 @@
     {{ form|crispy }}
    </div>
     <button id="button_id_save" class="btn btn-success" type="submit">Save</button>
-
 </form>
+<form method="POST" action="/accounts/send_email_otp/">
+    {% csrf_token %}
+    <button id="button_id_get_email" hx-post="/accounts/send_email_otp/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+  </form>
+  
 <script>
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
