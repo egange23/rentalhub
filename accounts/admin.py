@@ -29,9 +29,11 @@ class CustomUserAdmin(UserAdmin):
     #     list_display.append(variable)
     # print(list_display)
 
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields":("phone",        'email_verification_code',
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields":('enter_email_verification_code','email_verification_code',
         'email_verified',
+        "phone", 
         'phone_verification_code',
+        'enter_phone_verification_code',
         'phone_verified',)}),)
     add_fieldsets = UserAdmin.fieldsets + ((None, {"fields":("phone",)}),)
 

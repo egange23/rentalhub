@@ -8,12 +8,15 @@
 {% block content %}
 <body>
 <h2>Verification Page</h2>
+
 <div id="div_id_verification_status">
 <div id="div_id_email_verified" name="email_verified" class="btn btn-secondary" hidden>{{user.email_verified}}</div>
 <div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary"hidden>{{user.phone_verified}}</div>
-<div id="div_id_verified" name="verified" class="display-1"></div>
+<a id="a_id_verified" name="verified" class="display-1"  href={% url 'refresh_code' %}></a>
+
+
 </div>
-<form method="post">
+<form id="form_id" method="post">
     <div >
     {% csrf_token %}
     {{ form|crispy }}
@@ -25,10 +28,13 @@
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
     let phoneVerified = document.getElementById("div_id_phone_verified");
-    let contactVerifyStatus = document.getElementById("div_id_verified");
+    let contactVerifyStatus = document.getElementById("a_id_verified");
+    let form = document.getElementById("form_id");
 
     if (emailVerified.innerHTML === "True" && phoneVerified.innerHTML === "True") {
         contactVerifyStatus.innerHTML = "User Verified!!!";
+        form.style.display="none";
+
     } else {
         contactVerifyStatus .innerHTML = "This account needs to be verified in order to use more features!";
     }

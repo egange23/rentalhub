@@ -18,6 +18,19 @@ def generateOTP():
         OTP += digits[math.floor(random.random() * 10)]
     return OTP
 
+def refresh_code(request):
+    customuser = CustomUser.objects.get(username=request.user)
+    email_otp = generateOTP()
+    customuser.email_verification_code = email_otp
+    customuser.save()
+    phone_otp = generateOTP()
+    customuser.phone_verification_code = phone_otp
+    customuser.save()
+    print(email_otp,phone_otp)
+
+    return redirect("verify")
+    
+
 
 class SignUpView(CreateView):
     model = CustomUser
@@ -29,11 +42,12 @@ class VerifyView(UpdateView):
     models = CustomUser
     form_class = ContactVerificationForm
     template_name = "accounts/registration/verification.html"
-    success_url = "/"
-
-    def get_object(self, queryset=CustomUser): 
-        # Return the current user object
+    success_url = reverse_lazy('verify')
+    
+    def get_object(self, queryset=CustomUser):
+        print(self.request.user.verification_status)
         return self.request.user
+
 
 def check_username(request):
     username = request.POST.get('username')

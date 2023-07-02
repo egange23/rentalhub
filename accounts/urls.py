@@ -13,6 +13,7 @@ htmx_urlpatterns = [
     path("check_phone/", views.check_phone, name='check-phone'),
     path("check_email/", views.check_email, name='check-email'),
     path("verify_email/", views.send_verification_code, name='verify-email'),
+    path("refresh_code/", views.refresh_code, name="refresh_code"),
 ]
 
 urlpatterns += htmx_urlpatterns
