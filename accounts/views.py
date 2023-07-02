@@ -11,6 +11,12 @@ from django.conf import settings
 
 import random, math
 
+class SignUpView(CreateView):
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = "accounts/registration/signup.html"
+    success_url = reverse_lazy('login')
+
 def generateOTP():
     digits = "0123456789"
     OTP = ""
@@ -18,26 +24,21 @@ def generateOTP():
         OTP += digits[math.floor(random.random() * 10)]
     return OTP
 
-def refresh_code(request):
+def refresh_email_code(request):
     customuser = CustomUser.objects.get(username=request.user)
     email_otp = generateOTP()
     customuser.email_verification_code = email_otp
     customuser.save()
+    print(email_otp)
+    return redirect("verify")
+    
+def refresh_phone_code(*args):
+    customuser = CustomUser.objects.get(username=args.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
     customuser.save()
-
-    print(email_otp,phone_otp)
-
+    print(phone_otp)
     return redirect("verify")
-    
-
-
-class SignUpView(CreateView):
-    model = CustomUser
-    form_class = CustomUserCreationForm
-    template_name = "accounts/registration/signup.html"
-    success_url = reverse_lazy('login')
 
 class VerifyView(UpdateView):
     models = CustomUser
@@ -60,8 +61,6 @@ def check_username(request):
     else:
         return HttpResponse('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.')
 
-# Verification process
-
 def check_phone(request):
     phone = request.POST.get('phone')
     if get_user_model().objects.filter(phone=phone).exists():
@@ -81,8 +80,10 @@ def check_email(request):
         return HttpResponse("...")
 
 def send_email_otp(request):
+    refresh_email_code(request)
     verification_code = request.user.email_verification_code
     email = request.POST.get('email')
+    print(email)
     subject = "Account Verification"
     message = f"Please verify your account with this code {verification_code}"
     from_email = settings.EMAIL_HOST_USER
