@@ -24,15 +24,24 @@ def generateOTP():
         OTP += digits[math.floor(random.random() * 10)]
     return OTP
 
-def refresh_email_code(request):
+def get_email_code(request):
     customuser = CustomUser.objects.get(username=request.user)
     email_otp = generateOTP()
     customuser.email_verification_code = email_otp
     customuser.save()
-    print(email_otp)
+
+    email = request.POST.get('email')
+    subject = "Account Verification"
+    message = f"Please verify your account with this code {email_otp}"
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject,message,from_email,recipient_list)
+    return HttpResponse("Email verification code sent!!")
+
+
     return redirect("verify")
     
-def refresh_phone_code(*args):
+def get_phone_code(*args):
     customuser = CustomUser.objects.get(username=args.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
@@ -80,16 +89,9 @@ def check_email(request):
         return HttpResponse("...")
 
 def send_email_otp(request):
-    refresh_email_code(request)
-    verification_code = request.user.email_verification_code
-    email = request.POST.get('email')
-    print(email)
-    subject = "Account Verification"
-    message = f"Please verify your account with this code {verification_code}"
-    from_email = settings.EMAIL_HOST_USER
-    recipient_list = [email]
-    send_mail(subject,message,from_email,recipient_list)
-    return HttpResponse("Email verification code sent!!")
+    print(refresh_email_code(request))
+    
+
 
 # How will verification be done?
 # Each CustomUser has a verification_code variable that can be completed from a verification.html form.

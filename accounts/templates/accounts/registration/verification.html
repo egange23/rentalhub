@@ -19,13 +19,13 @@
     {{ form|crispy }}
    </div>
     <button id="button_id_save" class="btn btn-success" type="submit">Save</button>
+    <form method="POST">
+        {% csrf_token %}
+        <button id="button_id_get_email" hx-post="/accounts/get_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+    </form>
 </form>
 
-<form method="POST" action="/accounts/send_email_otp/">
-    {% csrf_token %}
-    {{form}}
-    <button id="button_id_get_email" hx-post="/accounts/send_email_otp/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
-</form>
+
   
 <script>
     //Verification Status
@@ -34,8 +34,8 @@
     let contactVerifyStatus = document.getElementById("div_id_verification_status");
     let form = document.getElementById("form_id");
 
-    if (emailVerified.innerHTML === "True" && phoneVerified.innerHTML === "True") {
-        contactVerifyStatus.innerHTML = "User Verified!!!";
+    if (emailVerified.innerHTML === "True" ) {
+        contactVerifyStatus.innerHTML = "Users email is verified!!!";
         form.style.display="none";
 
     } else {
