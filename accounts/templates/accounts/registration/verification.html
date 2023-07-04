@@ -12,20 +12,23 @@
 <div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary">{{user.phone_verified}}</div>
 <div id="div_id_email_verification_status"></div>
 <div id="div_id_phone_verification_status"></div>
-<form id="form_id" method="post">
-    <div >
-    {% csrf_token %}
-    {{ form|crispy }}
-   </div>
-    <button id="button_id_save" class="btn btn-success" type="submit">Save</button>
-    <form method="POST">
-        {% csrf_token %}
-        <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
-        <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
-    </form>
-</form>
 
-  
+<hr><hr>
+<form id="form_id" method="post">
+    {% csrf_token %}
+    Email Address: {{ form.email}}
+    <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+    Enter Verification Code: {{ form.enter_email_verification_code}}
+    <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+</form>
+<hr>
+<form id="form_id" method="post">
+    {% csrf_token %}
+    Phone: {{ form.phone }}
+    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_phone_email" class="btn btn-primary">Get Phone Verification Code</button>
+    Enter Verification Code: {{ form.enter_phone_verification_code}}
+    <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+</form>
 <script>
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
@@ -35,9 +38,12 @@
     let form = document.getElementById("form_id");
     let divEnterEmailVerificationCode = document.getElementById("div_id_enter_email_verification_code");
 
+        ///save buttons moved
     var emailButton = document.getElementById("button_id_get_email");
     divEnterEmailVerificationCode.parentNode.insertBefore(emailButton, divEnterEmailVerificationCode.nextSibling);
     
+    var buttonEmailSave = document.getElementById("button_id_email_save");
+    divEnterEmailVerificationCode.parentNode.insertBefore(buttonEmailSave, divEnterEmailVerificationCode.nextSibling);
 
     if (emailVerified.innerHTML === "True" ) {
         emailVerificationStatus.innerHTML = "Users email is verified!!!";
@@ -53,7 +59,6 @@
         emailVerificationStatus .innerHTML = "This accounts phone number need to be verified in order to use more features!";
     }
 
-   
     //Adding verification status
     let phoneVerificationCode = document.getElementById("div_id_phone_verification_code");
     let emailVerificationCode = document.getElementById("div_id_email_verification_code");
@@ -67,6 +72,8 @@
             console.log("value now:"+emailValue);
         }
     });
+
+
 </script>
 </body>
 {% endblock content %} 
