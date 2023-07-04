@@ -37,19 +37,17 @@ def send_email_code(request):
     recipient_list = [email]
     send_mail(subject,message,from_email,recipient_list)
     return HttpResponse("Email verification code sent!!")
+
+
+    return redirect("verify")
     
-def get_phone_code(request):
-    def send_phone_code(request):
+def send_phone_code(request):
     customuser = CustomUser.objects.get(username=request.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
     customuser.save()
     print(phone_otp)
-<<<<<<< HEAD
     return HttpResponse("Phone number verification code sent!!")
-=======
-    return HttpResponse("Email verification code sent!!")
->>>>>>> d923bddac27846557863b3722de394e67d0cd351
 
 class VerifyView(UpdateView):
     models = CustomUser
@@ -90,9 +88,6 @@ def check_email(request):
     else:
         return HttpResponse("...")
 
-def send_email_otp(request):
-    print(refresh_email_code(request))
-    
 
 
 # How will verification be done?
