@@ -20,8 +20,8 @@
     <button id="button_id_save" class="btn btn-success" type="submit">Save</button>
     <form method="POST">
         {% csrf_token %}
-        <button id="button_id_get_email" hx-post="/accounts/get_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
-        <button id="button_id_get_phone" hx-post="/accounts/get_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
+        <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+        <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
     </form>
 </form>
 
