@@ -38,11 +38,8 @@ def send_email_code(request):
     send_mail(subject,message,from_email,recipient_list)
     return HttpResponse("Email verification code sent!!")
     
-<<<<<<< HEAD
 def get_phone_code(request):
-=======
-def send_phone_code(request):
->>>>>>> d923bddac27846557863b3722de394e67d0cd351
+    def send_phone_code(request):
     customuser = CustomUser.objects.get(username=request.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
