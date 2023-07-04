@@ -24,7 +24,7 @@ def generateOTP():
         OTP += digits[math.floor(random.random() * 10)]
     return OTP
 
-def get_email_code(request):
+def send_email_code(request):
     customuser = CustomUser.objects.get(username=request.user)
     email_otp = generateOTP()
     customuser.email_verification_code = email_otp
@@ -37,17 +37,22 @@ def get_email_code(request):
     recipient_list = [email]
     send_mail(subject,message,from_email,recipient_list)
     return HttpResponse("Email verification code sent!!")
-
-
-    return redirect("verify")
     
+<<<<<<< HEAD
 def get_phone_code(request):
+=======
+def send_phone_code(request):
+>>>>>>> d923bddac27846557863b3722de394e67d0cd351
     customuser = CustomUser.objects.get(username=request.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
     customuser.save()
     print(phone_otp)
+<<<<<<< HEAD
     return HttpResponse("Phone number verification code sent!!")
+=======
+    return HttpResponse("Email verification code sent!!")
+>>>>>>> d923bddac27846557863b3722de394e67d0cd351
 
 class VerifyView(UpdateView):
     models = CustomUser
