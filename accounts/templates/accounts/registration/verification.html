@@ -17,14 +17,12 @@
     {% csrf_token %}
     {{ form|crispy }}
    </div>
-    <button id="button_id_save" class="btn btn-success" type="submit">Save</button>
-    <form method="POST">
-        {% csrf_token %}
-        <button id="button_id_get_email" hx-post="/accounts/get_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+    <button id="button_id_email_save" class="btn btn-success" type="submit">Submit Email Code</button>
+    <button id="button_id_phone_save" class="btn btn-success" type="submit">Submit Phone Code</button>
+    <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" class="btn btn-primary">Get Email Verification Code</button>
+    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" class="btn btn-primary">Get Phone Verification Code</button>
         <button id="button_id_get_phone" hx-post="/accounts/get_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
-    </form>
 </form>
-
 
   
 <script>
@@ -34,13 +32,15 @@
     let emailVerificationStatus = document.getElementById("div_id_verification_status");
     let phoneVerficationStatus = document.getElementById("div_id_phone_verification_status");
     let form = document.getElementById("form_id");
+    let divEnterEmailVerificationCode = document.getElementById("div_id_enter_email_verification_code");
+
+    var emailButton = document.getElementById("button_id_get_email");
+    divEnterEmailVerificationCode.parentNode.insertBefore(emailButton, divEnterEmailVerificationCode.nextSibling);
+    
 
     if (emailVerified.innerHTML === "True" ) {
-        emailVerificationStatus.innerHTML = "Users email is verified!!!";
+        contactVerifyStatus.innerHTML = "Users email is verified!!!";
         form.style.display="none";
-    } else {
-        emailVerificationStatus .innerHTML = "This accounts email address need to be verified in order to use more features!";
-    }
 
     if (phoneVerficationStatus.innerHTML === "True" ) {
         phoneVerificationStatus.innerHTML = "Users phone number is verified!!!";
@@ -48,7 +48,6 @@
     } else {
         emailVerificationStatus .innerHTML = "This accounts phone number need to be verified in order to use more features!";
     }
-
    
     //Adding verification status
     let phoneVerificationCode = document.getElementById("div_id_phone_verification_code");
