@@ -8,24 +8,15 @@
 {% block content %}
 <body>
 <h2>Verification Page</h2>
-<div id="div_id_email_verified" name="email_verified" class="btn btn-secondary" >{{user.email_verified}}</div>
-<div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary">{{user.phone_verified}}</div>
-<div id="div_id_email_verification_status"></div>
-<div id="div_id_phone_verification_status"></div>
-
-<hr><hr>
 <form id="form_id" method="post">
     {% csrf_token %}
-    Email Address: {{ form.email}}
+    Email Address: {{ form.email}}<div id="div_id_email_verified" name="email_verified" >{{user.email_verified}}</div>
     <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
     Enter Verification Code: {{ form.enter_email_verification_code}}
     <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
-</form>
-<hr>
-<form id="form_id" method="post">
-    {% csrf_token %}
-    Phone: {{ form.phone }}
-    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_phone_email" class="btn btn-primary">Get Phone Verification Code</button>
+    <hr>
+    Phone: {{ form.phone }}<div id="div_id_phone_verified" name="phone_verified">{{user.phone_verified}}</div>
+    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_0228phone" class="btn btn-primary">Get Phone Verification Code</button>
     Enter Verification Code: {{ form.enter_phone_verification_code}}
     <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
 </form>
@@ -33,45 +24,24 @@
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
     let phoneVerified = document.getElementById("div_id_phone_verified");
-    let emailVerificationStatus = document.getElementById("div_id_verification_status");
-    let phoneVerficationStatus = document.getElementById("div_id_phone_verification_status");
     let form = document.getElementById("form_id");
     let divEnterEmailVerificationCode = document.getElementById("div_id_enter_email_verification_code");
 
-        ///save buttons moved
-    var emailButton = document.getElementById("button_id_get_email");
-    divEnterEmailVerificationCode.parentNode.insertBefore(emailButton, divEnterEmailVerificationCode.nextSibling);
-    
-    var buttonEmailSave = document.getElementById("button_id_email_save");
-    divEnterEmailVerificationCode.parentNode.insertBefore(buttonEmailSave, divEnterEmailVerificationCode.nextSibling);
 
     if (emailVerified.innerHTML === "True" ) {
-        emailVerificationStatus.innerHTML = "Users email is verified!!!";
-        form.style.display="none";
+        emailVerified.innerHTML = "Email Verified";
+        console.log(emailVerified)
     } else {
-        emailVerificationStatus .innerHTML = "This accounts email address need to be verified in order to use more features!";
+        emailVerified.innerHTML = "Email Not Verified";
     }
 
-    if (phoneVerficationStatus.innerHTML === "True" ) {
-        phoneVerificationStatus.innerHTML = "Users phone number is verified!!!";
-        form.style.display="none";
+    if (phoneVerified.innerHTML === "True" ) {
+        phoneVerified.innerHTML = "Phone Verified";
+        console.log(phoneVerified)
     } else {
-        emailVerificationStatus .innerHTML = "This accounts phone number need to be verified in order to use more features!";
+        phoneVerified.innerHTML = "Phone number not verified";
     }
 
-    //Adding verification status
-    let phoneVerificationCode = document.getElementById("div_id_phone_verification_code");
-    let emailVerificationCode = document.getElementById("div_id_email_verification_code");
-    let emailInput = document.getElementById("id_email");
-    
-    emailInput.addEventListener("input", function(){
-        let = emailValue = emailInput.value;
-        if (emailValue === "") {
-            console.log("email input this")
-        } else {
-            console.log("value now:"+emailValue);
-        }
-    });
 
 
 </script>
