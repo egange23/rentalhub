@@ -8,11 +8,10 @@
 {% block content %}
 <body>
 <h2>Verification Page</h2>
-
-<div id="div_id_verification_status">
-<div id="div_id_email_verified" name="email_verified" class="btn btn-secondary" hidden>{{user.email_verified}}</div>
-<div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary"hidden>{{user.phone_verified}}</div>
-</div>
+<div id="div_id_email_verified" name="email_verified" class="btn btn-secondary" >{{user.email_verified}}</div>
+<div id="div_id_phone_verified" name="phone_verified" class="btn btn-secondary">{{user.phone_verified}}</div>
+<div id="div_id_email_verification_status"></div>
+<div id="div_id_phone_verification_status"></div>
 <form id="form_id" method="post">
     <div >
     {% csrf_token %}
@@ -22,6 +21,7 @@
     <form method="POST">
         {% csrf_token %}
         <button id="button_id_get_email" hx-post="/accounts/get_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+        <button id="button_id_get_phone" hx-post="/accounts/get_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
     </form>
 </form>
 
@@ -31,16 +31,24 @@
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
     let phoneVerified = document.getElementById("div_id_phone_verified");
-    let contactVerifyStatus = document.getElementById("div_id_verification_status");
+    let emailVerificationStatus = document.getElementById("div_id_verification_status");
+    let phoneVerficationStatus = document.getElementById("div_id_phone_verification_status");
     let form = document.getElementById("form_id");
 
     if (emailVerified.innerHTML === "True" ) {
-        contactVerifyStatus.innerHTML = "Users email is verified!!!";
+        emailVerificationStatus.innerHTML = "Users email is verified!!!";
         form.style.display="none";
-
     } else {
-        contactVerifyStatus .innerHTML = "This account needs to be verified in order to use more features!";
+        emailVerificationStatus .innerHTML = "This accounts email address need to be verified in order to use more features!";
     }
+
+    if (phoneVerficationStatus.innerHTML === "True" ) {
+        phoneVerificationStatus.innerHTML = "Users phone number is verified!!!";
+        form.style.display="none";
+    } else {
+        emailVerificationStatus .innerHTML = "This accounts phone number need to be verified in order to use more features!";
+    }
+
    
     //Adding verification status
     let phoneVerificationCode = document.getElementById("div_id_phone_verification_code");

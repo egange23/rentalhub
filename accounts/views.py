@@ -41,13 +41,13 @@ def get_email_code(request):
 
     return redirect("verify")
     
-def get_phone_code(*args):
-    customuser = CustomUser.objects.get(username=args.user)
+def get_phone_code(request):
+    customuser = CustomUser.objects.get(username=request.user)
     phone_otp = generateOTP()
     customuser.phone_verification_code = phone_otp
     customuser.save()
     print(phone_otp)
-    return redirect("verify")
+    return HttpResponse("Phone number verification code sent!!")
 
 class VerifyView(UpdateView):
     models = CustomUser
