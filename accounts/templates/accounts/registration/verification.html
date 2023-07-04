@@ -10,13 +10,13 @@
 <h2>Verification Page</h2>
 <form id="form_id" method="post">
     {% csrf_token %}
-    Email Address: {{ form.email}}<div id="div_id_email_verified" name="email_verified" >{{user.email_verified}}</div>
+    Email Address: <div = id="email_verification_code">{{ form.email}}</div><div id="div_id_email_verified" name="email_verified" >{{user.email_verified}}</div>
     <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
     Enter Verification Code: {{ form.enter_email_verification_code}}
     <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
     <hr>
     Phone: {{ form.phone }}<div id="div_id_phone_verified" name="phone_verified">{{user.phone_verified}}</div>
-    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_0228phone" class="btn btn-primary">Get Phone Verification Code</button>
+    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
     Enter Verification Code: {{ form.enter_phone_verification_code}}
     <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
 </form>
@@ -24,20 +24,24 @@
     //Verification Status
     let emailVerified = document.getElementById("div_id_email_verified");
     let phoneVerified = document.getElementById("div_id_phone_verified");
+    let emailVerificationCode = document.getElementById("button_id_get_email");
+    let emailCodeInput = document.getElementById("email_verification_code")
+    let phoneVerificationCode = document.getElementById("button_id_get_phone");
     let form = document.getElementById("form_id");
     let divEnterEmailVerificationCode = document.getElementById("div_id_enter_email_verification_code");
 
 
     if (emailVerified.innerHTML === "True" ) {
         emailVerified.innerHTML = "Email Verified";
-        console.log(emailVerified)
+        emailVerificationCode.style.display = "None";
+        emailCodeInput.style.display = "none";
     } else {
         emailVerified.innerHTML = "Email Not Verified";
     }
 
     if (phoneVerified.innerHTML === "True" ) {
         phoneVerified.innerHTML = "Phone Verified";
-        console.log(phoneVerified)
+
     } else {
         phoneVerified.innerHTML = "Phone number not verified";
     }
