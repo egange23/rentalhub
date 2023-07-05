@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import SignUpView, VerifyView
+from .views import SignUpView, EmailVerifyView
 from . import views
 
 urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
-    path("verify/", VerifyView.as_view(), name="verify"),
+    path("verify_email/", EmailVerifyView.as_view(), name="verify_email"),
     path("send_email_code/", views.send_email_code, name="send_email_code"),
     path("send_phone_code/", views.send_phone_code, name="send_phone_code"),
 

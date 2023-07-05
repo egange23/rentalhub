@@ -9,7 +9,7 @@ from .models import *
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
-    form = ContactVerificationForm
+    form = CustomUserChangeForm
     model = CustomUser
     list_display = [
         "username",

@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm, ContactVerificationForm
+from .forms import CustomUserCreationForm, EmailVerificationForm
 from .models import *
 from django.conf import settings
 
@@ -49,9 +49,9 @@ def send_phone_code(request):
     print(phone_otp)
     return HttpResponse("Phone number verification code sent!!")
 
-class VerifyView(UpdateView):
+class EmailVerifyView(UpdateView):
     models = CustomUser
-    form_class = ContactVerificationForm
+    form_class = EmailVerificationForm
     template_name = "accounts/registration/verification.html"
     success_url = reverse_lazy('verify')
     
