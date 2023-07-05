@@ -8,17 +8,29 @@
 {% block content %}
 <body>
 <h2>Verification Page</h2>
+
 <form id="form_id" method="post">
     {% csrf_token %}
-    Email Address: <div = id="email_verification_code">{{ form.email}}</div><div id="div_id_email_verified" name="email_verified" >{{user.email_verified}}</div>
-    <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
-    Enter Verification Code: {{ form.enter_email_verification_code}}
-    <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+    <div id="div_id_email_form">
+        <label for="email">Email Address:</label>
+        <div id="email_verification_code">{{ form.email }}</div>
+        <div id="div_id_email_verified" name="email_verified">{{ user.email_verified }}</div>
+        <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+        <label for="verification_code">Enter Verification Code:</label>
+        {{ form.enter_email_verification_code }}
+        <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+    </div>
     <hr>
-    Phone: {{ form.phone }}<div id="div_id_phone_verified" name="phone_verified">{{user.phone_verified}}</div>
-    <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
-    Enter Verification Code: {{ form.enter_phone_verification_code}}
-    <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+    <div id="div_id_phone_form">
+        <label for="phone">Phone:</label>
+        {{ form.phone }}
+        <div id="div_id_phone_verified" name="phone_verified">{{ user.phone_verified }}</div>
+        <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
+        <label for="verification_code">Enter Verification Code:</label>
+        {{ form.enter_phone_verification_code }}
+        <button id="button_id_phone_save" class="btn btn-success" type="submit">Save</button>
+    </div>
+    
 </form>
 <script>
     //Verification Status
@@ -33,8 +45,6 @@
 
     if (emailVerified.innerHTML === "True" ) {
         emailVerified.innerHTML = "Email Verified";
-        emailVerificationCode.style.display = "None";
-
     } else {
         emailVerified.innerHTML = "Email Not Verified";
     }
