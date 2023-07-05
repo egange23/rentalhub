@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import get_user_model
 
-from .forms import CustomUserCreationForm, EmailVerificationForm
+from .forms import CustomUserCreationForm, EmailVerificationForm, PhoneVerificationForm
 from .models import *
 from django.conf import settings
 
@@ -39,7 +39,7 @@ def send_email_code(request):
     return HttpResponse("Email verification code sent!!")
 
 
-    return redirect("verify")
+    return redirect("verify_email")
     
 def send_phone_code(request):
     customuser = CustomUser.objects.get(username=request.user)
@@ -52,8 +52,18 @@ def send_phone_code(request):
 class EmailVerifyView(UpdateView):
     models = CustomUser
     form_class = EmailVerificationForm
-    template_name = "accounts/registration/verification.html"
-    success_url = reverse_lazy('verify')
+    template_name = "accounts/registration/email_verification.html"
+    success_url = reverse_lazy('verify_email')
+    
+    def get_object(self, queryset=CustomUser):
+        print(self.request.user.verification_status)
+        return self.request.user
+
+class PhoneVerifyView(UpdateView):
+    models = CustomUser
+    form_class = PhoneVerificationForm
+    template_name = "accounts/registration/phone_verification.html"
+    success_url = reverse_lazy('verify_phone')
     
     def get_object(self, queryset=CustomUser):
         print(self.request.user.verification_status)

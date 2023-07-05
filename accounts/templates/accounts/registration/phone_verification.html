@@ -1,0 +1,38 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Account Verification!{% endblock title %}
+
+{% block content %}
+<body>
+<h2>Verification Page</h2>
+
+<form id="form_id" method="post">
+    {% csrf_token %}
+
+    <div id="div_id_phone_form">
+        <label for="phone">Phone:</label>
+        {{ form.phone }}
+        <div id="div_id_phone_verified" name="phone_verified">{{ user.phone_verified }}</div>
+        <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
+        <label for="verification_code">Enter Verification Code:</label>
+        {{ form.enter_phone_verification_code }}
+        <button id="button_id_phone_save" class="btn btn-success" type="submit">Save</button>
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let phoneVerified = document.getElementById("div_id_phone_verified");
+        let phoneInput = document.querySelector("#div_id_phone_form input");
+
+        if (phoneVerified.innerHTML.trim().toLowerCase() === "true") {
+            phoneVerified.innerHTML = "Phone Verified";
+            phoneInput.readOnly = true;
+        } else {
+            phoneVerified.innerHTML = "Phone number not verified";
+        }
+    });
+</script>
+</body>
+{% endblock content %}
