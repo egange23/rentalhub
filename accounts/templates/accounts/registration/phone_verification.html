@@ -15,20 +15,24 @@
         <label for="phone">Phone:</label>
         {{ form.phone }}
         <div id="div_id_phone_verified" name="phone_verified">{{ user.phone_verified }}</div>
+        <div id="div_id_verification_input">
         <button id="button_id_get_phone" hx-post="/accounts/send_phone_code/" hx-trigger="click" hx-target="#button_id_get_phone" class="btn btn-primary">Get Phone Verification Code</button>
         <label for="verification_code">Enter Verification Code:</label>
         {{ form.enter_phone_verification_code }}
         <button id="button_id_phone_save" class="btn btn-success" type="submit">Save</button>
+        </div>
     </div>
 </form>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let phoneVerified = document.getElementById("div_id_phone_verified");
         let phoneInput = document.querySelector("#div_id_phone_form input");
+        let verificationInput = document.getElementById("div_id_verification_input");
 
         if (phoneVerified.innerHTML.trim().toLowerCase() === "true") {
             phoneVerified.innerHTML = "Phone Verified";
             phoneInput.readOnly = true;
+            verificationInput.style.display = "None";
         } else {
             phoneVerified.innerHTML = "Phone number not verified";
         }

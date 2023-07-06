@@ -15,10 +15,13 @@
             <label for="email">Email Address:</label>
             <div id="email_verification_code">{{ form.email }}</div>
             <div id="div_id_email_verified" name="email_verified">{{ user.email_verified }}</div>
-            <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
-            <label for="verification_code">Enter Verification Code:</label>
-            {{ form.enter_email_verification_code }}
-            <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+            <div id="div_id_verification_input">
+                
+                <button id="button_id_get_email" hx-post="/accounts/send_email_code/" hx-trigger="click" hx-target="#button_id_get_email" class="btn btn-primary">Get Email Verification Code</button>
+                <label for="verification_code">Enter Verification Code:</label>
+                {{ form.enter_email_verification_code }}
+                <button id="button_id_email_save" class="btn btn-success" type="submit">Save</button>
+            </div>
         </div>
     </form>
     
@@ -28,10 +31,15 @@
             let emailVerified = document.getElementById("div_id_email_verified");
             let emailVerificationCode = document.getElementById("email_verification_code");
             let emailCodeInput = emailVerificationCode.querySelector("input");
+ 
+            let verificationInput = document.getElementById("div_id_verification_input");
+
     
             if (emailVerified.innerHTML.trim().toLowerCase() === "true") {
                 emailVerified.innerHTML = "Email Verified";
                 emailCodeInput.readOnly = true;
+                verificationInput.style.display = "None";
+
             } else {
                 emailVerified.innerHTML = "Email Not Verified";
             }
